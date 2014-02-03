@@ -23,9 +23,10 @@ from google.appengine.api import users
 
 guestbook_key = ndb.Key('Guestbook', 'default_guestbook')
 
-class Greeting(ndb.Model):
-  author = ndb.UserProperty()
+class Message(ndb.Model):
+  user_id = ndb.IntegerProperty()
   content = ndb.TextProperty()
+  room_id = ndb.IntegerProperty()
   date = ndb.DateTimeProperty(auto_now_add=True)
 
 
@@ -37,7 +38,7 @@ class MainPage(webapp2.RequestHandler):
    '</form> ')
     self.response.out.write('<form action="/messages" method="post">' +
    'User ID: <input type="text" name="user_id"><br>' +
-   'Message: <input type="text" name="message"><br>' +
+   'Content: <input type="text" name="content"><br>' +
    'Room ID: <input type="text" name="room_id"><br>' +
    '<input type="submit" value="Submit">' +
    '</form> </body></html>')
@@ -49,13 +50,19 @@ class Messages(webapp2.RequestHandler):
     self.response.out.write(user_id)
     self.response.out.write('<br>')
     
-    message = self.request.get('message')
-    self.response.out.write(message)
+    content = self.request.get('content')
+    self.response.out.write(content)
     self.response.out.write('<br>')
     
     room_id = self.request.get('room_id')
     self.response.out.write(room_id)
     self.response.out.write('<br>')
+
+    message = Message()
+    message.user_id = int(user_id)
+    message.content = content
+    message.room_id = int(room_id)
+    message.put()
 
   def get(self):
     room_id = self.request.get('room_id')
