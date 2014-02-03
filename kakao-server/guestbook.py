@@ -34,19 +34,25 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write('<html><body><form action="/messages" method="get">' +
    'Room ID: <input type="text" name="room_id"><br>' +
    '<input type="submit" value="Submit">' +
+   '</form> ')
+    self.response.out.write('<form action="/messages" method="post">' +
+   'User ID: <input type="text" name="user_id"><br>' +
+   'Message: <input type="text" name="message"><br>' +
+   'Room ID: <input type="text" name="room_id"><br>' +
+   '<input type="submit" value="Submit">' +
    '</form> </body></html>')
 
 
 class Messages(webapp2.RequestHandler):
   def post(self):
-    greeting = Greeting(parent=guestbook_key)
-
-    if users.get_current_user():
-      greeting.author = users.get_current_user()
-
-    greeting.content = self.request.get('content')
-    greeting.put()
-    self.redirect('/')
+    user_id = self.request.get('user_id')
+    self.response.out.write(user_id)
+    
+    message = self.request.get('message')
+    self.response.out.write(message)
+    
+    room_id = self.request.get('room_id')
+    self.response.out.write(room_id)
 
   def get(self):
     room_id = self.request.get('room_id')
