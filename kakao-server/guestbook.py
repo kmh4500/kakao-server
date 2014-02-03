@@ -67,7 +67,10 @@ class Messages(webapp2.RequestHandler):
   def get(self):
     room_id = int(self.request.get('room_id'))
     messages = Message.query(Message.room_id == room_id).fetch(100);
-    self.response.out.write(messages)
+    output = ''
+    for message in messages:
+      output += str(message.user_id) + '\\' + message.content + '\\' + str(message.room_id) + ','
+    self.response.out.write(output)
 
 
 app = webapp2.WSGIApplication([
