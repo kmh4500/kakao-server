@@ -66,7 +66,7 @@ class Messages(webapp2.RequestHandler):
 
   def get(self):
     room_id = int(self.request.get('room_id'))
-    messages = Message.query(Message.room_id == room_id).fetch(100);
+    messages = Message.query(Message.room_id == room_id).order(-Message.date).fetch(100);
     output = ''
     for message in messages:
       output += str(message.user_id) + '\\' + message.content + '\\' + str(message.room_id) + ','
