@@ -47,12 +47,15 @@ class Messages(webapp2.RequestHandler):
   def post(self):
     user_id = self.request.get('user_id')
     self.response.out.write(user_id)
+    self.response.out.write('<br>')
     
     message = self.request.get('message')
     self.response.out.write(message)
+    self.response.out.write('<br>')
     
     room_id = self.request.get('room_id')
     self.response.out.write(room_id)
+    self.response.out.write('<br>')
 
   def get(self):
     room_id = self.request.get('room_id')
