@@ -17,6 +17,7 @@
 import cgi
 import datetime
 import webapp2
+import urllib, urllib2
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -63,6 +64,17 @@ class Messages(webapp2.RequestHandler):
     message.content = content
     message.room_id = int(room_id)
     message.put()
+
+    url = 'https://android.googleapis.com/gcm/send'
+    values = {'registration_id' : 'APA91bF0oQC-1Y9tkGDE-OGPAzo8jgfAflCM7besUFuAJ8z7lJYE-5jx2fVXIpViQEKRjHVqivaziJACXXuZAoO1NZUdxb5IZHIsFPigzJnRsTkclwd9RTWtLAI-X0m9kbBP18hjvoblli6OTHRL13CiIyvrg7uefg'}
+    header = {'Authorization' : 'key=AIzaSyC4TqBJQ7pHNI4WJzkPNiOFTOCHAKkOAN0'}
+
+    data = urllib.urlencode(values)
+    req = urllib2.Request(url, data, header)
+    response = urllib2.urlopen(req)
+    self.response.out.write(response.read())
+
+    
 
   def get(self):
     room_id = int(self.request.get('room_id'))
