@@ -67,7 +67,8 @@ class Messages(webapp2.RequestHandler):
 
     url = 'https://android.googleapis.com/gcm/send'
     values = {'registration_id' : 'APA91bF0oQC-1Y9tkGDE-OGPAzo8jgfAflCM7besUFuAJ8z7lJYE-5jx2fVXIpViQEKRjHVqivaziJACXXuZAoO1NZUdxb5IZHIsFPigzJnRsTkclwd9RTWtLAI-X0m9kbBP18hjvoblli6OTHRL13CiIyvrg7uefg',
-              'data.content' : content.encode('utf-8')}
+              'data.content' : content.encode('utf-8'),
+              'data.room_id' : room_id}
     header = {'Authorization' : 'key=AIzaSyC4TqBJQ7pHNI4WJzkPNiOFTOCHAKkOAN0'}
 
     data = urllib.urlencode(values)
